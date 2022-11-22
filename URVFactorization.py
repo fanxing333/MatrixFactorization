@@ -1,5 +1,5 @@
 import numpy as np
-from QRFactorization import HouseholderReduction, GivensReduction, GramSchmidt
+from OrthogonalReduction import HouseholderReduction, GivensReduction
 
 def URVFactorization(Matrix):
     m, n = Matrix.shape

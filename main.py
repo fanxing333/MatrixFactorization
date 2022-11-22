@@ -1,6 +1,7 @@
 import numpy as np
 from LUFactorization import getRowEchelonForm
-from QRFactorization import GramSchmidt, HouseholderReduction, GivensReduction
+from OrthogonalReduction import HouseholderReduction, GivensReduction
+from QRFactorization import GramSchmidt
 class LinearSystem:
     """
     A: 1. mxn 的矩阵
