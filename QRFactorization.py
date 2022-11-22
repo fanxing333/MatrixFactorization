@@ -71,17 +71,16 @@ def get_augmented_matrix(Matrix, target_dim):
 
     return Matrix
 
-
 def HouseholderReduction(Matrix):
     """
-    使用 householder 约减实现矩阵A的QR分解 A = QR
-    :param Matrix: A nxn
-    :return: 正交矩阵 Q, 上三角矩阵 R
+    使用 householder 约减实现矩阵A的QR分解 A(mxn) = Q(mxm)R(mxn)
+    :param Matrix: A mxn
+    :return: 正交矩阵 Q mxm, 上三角矩阵 R mxn
     """
     m, n = Matrix.shape
     Q_list = []
     Matrix_copy = Matrix.copy()
-    for i in range(m - 1):
+    for i in range(min(m-1, n)):
 
         I = np.identity(m - i)
         e1 = I[:, [0]]
@@ -100,7 +99,6 @@ def HouseholderReduction(Matrix):
 
     R = Q_inv @ Matrix
     return Q_inv.T, R
-
 
 def GivensReduction(Matrix):
     """
@@ -137,7 +135,6 @@ def GivensReduction(Matrix):
         Q_inv = q @ Q_inv
     # P @ A = R
     return Q_inv.T, Q_inv @ Matrix
-
 
 def plane_rotation(x, i, j):
     """
@@ -181,17 +178,48 @@ if __name__ == "__main__":
     print(Q)
     print(R)
     print(Q @ R)
-    """
+    
     AA = np.array([[1, 2, 3],
                    [2, 4, 6],
                    [3, 6, 9],
                    [3, 6, 9]])
     Qg, Rg = GramSchmidt(AA)
     print(Qg)
-    print(Rg)
+    print(Rg)"""
 
-    #print(ModifiedGramSchmidt(A))
-    # A = QR
-    # QRx = b
-    # Rx = Q.Tb
-    # x =
+    print("Test A, mxm")
+    TestA = np.array([[0, -20, -14],
+                      [3, 27, -4],
+                      [4, 11, -2]])
+    Qa, Ra = HouseholderReduction(TestA)
+    print("Q矩阵\n", Qa)
+    print("R矩阵\n", Ra)
+    print("QR矩阵\n", Qa @ Ra)
+
+    print("Test B, mxn and m>n")
+    TestB = np.array([[0, -20, -14],
+                      [3, 27, -4],
+                      [4, 11, -2],
+                      [2, 5, 6]])
+    Qb, Rb = HouseholderReduction(TestB)
+    print("Q矩阵4x4\n", Qb)
+    print("R矩阵4x3\n", Rb)
+    print("QR矩阵\n", Qb @ Rb)
+
+    print("Test C, mxn and m<n")
+    TestC = np.array([[0, -20, -14, 4],
+                      [3, 27, -4, 3],
+                      [4, 11, -2, 2]])
+    Qc, Rc = HouseholderReduction(TestC)
+    print("Q矩阵3x3\n", Qc)
+    print("R矩阵3x4\n", Rc)
+    print("QR矩阵\n", Qc @ Rc)
+
+    print("Test D, mxm and r=1")
+    TestD = np.array([[1, -20, -14],
+                      [1, -20, -14],
+                      [1, -20, -14]])
+    Qd, Rd = HouseholderReduction(TestD)
+    print("Q矩阵3x3\n", Qd)
+    print("R矩阵3x3\n", Rd)
+    print("QR矩阵\n", Qd @ Rd)
