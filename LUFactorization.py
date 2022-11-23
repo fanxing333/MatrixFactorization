@@ -107,46 +107,35 @@ def isSolvable(matrix):
 if __name__ == "__main__":
     # 取消科学记数法显示
     np.set_printoptions(suppress=True)
-    A = np.array([[0, -20, -14],
-                  [3, 27, -4],
-                  [4, 11, -2]])
-    B = np.array([[2, 1, 1, 4],
+    print("Test A mxm, r=m")
+    Test_A = np.array([[2, 2, 2],
+                  [4, 7, 7],
+                  [6, 18, 22]])
+
+    La, Ua, idxa = getRowEchelonForm(Test_A)
+    print("L =\n", La)
+    print("U =\n", Ua)
+    print("A = LU = \n", La @ Ua)
+
+    print("Test B mxn, m>n")
+    Test_B = np.array([[2, 1, 1, 4],
                   [4, 2, 1, 6],
                   [7, 3, 1, 8],
                   [8, 4, 1, 10],
                   [1, 2, 3, 5],
                   [1, 2, 3, 6]])
-    special_case = np.array([[1, -1, 1],
-                             [0, 1, 0],
-                             [0, 1, 1]])
-    random_matrix = np.random.random((5, 4))
-    random_matrix = np.array(random_matrix)
-    x_true = [[x+0.1] for x in range(4)]
-    x_true = np.array(x_true)
-    b = [[row @ x_true] for row in random_matrix]
-    L1, U1, idx = getRowEchelonForm(A)
-    print("L\n", L1)
-    print("U\n", U1)
-    print("A = LU = \n", L1 @ U1)
-    print(idx)
 
-    #b = np.array([[1], [1], [2], [2]])
+    Lb, Ub, idxb = getRowEchelonForm(Test_B)
+    print("L =\n", Lb)
+    print("U =\n", Ub)
+    print("A = LU = \n", Lb @ Ub)
 
-    b_sorted = [b[idx.index([i])][0] for i in range(len(idx))]
-    y = []
-    for i in range(L1.shape[0]):
-        bi = b_sorted[i]
-        for j in range(i):
-            bi -= y[j] * L1[i, j]
-        yi = bi
-        y.append(yi)
-    print(y)
-    x = [0] * U1.shape[0]
-    for i in range(min(U1.shape[0], U1.shape[1])-1, -1, -1):
-        print(i)
-        yi = y[i]
-        for j in range(min(U1.shape[0], U1.shape[1])-1, i, -1):
-            yi -= x[j] * U1[i, j]
-        xi = yi / U1[i, i] if U1[i, i] != 0 else 0
-        x[i] = xi
-    print(x)
+    print("Test C mxn, n>m>r")
+    Test_C = np.array([[2, 2, 2, 2],
+                       [4, 4, 4, 4],
+                       [6, 18, 22, 12]])
+
+    Lc, Uc, idxc = getRowEchelonForm(Test_C)
+    print("L =\n", Lc)
+    print("U =\n", Uc)
+    print("A = LU = \n", Lc @ Uc)

@@ -2,6 +2,9 @@ import numpy as np
 from LUFactorization import getRowEchelonForm
 from OrthogonalReduction import HouseholderReduction, GivensReduction
 from QRFactorization import GramSchmidt
+from URVFactorization import URVFactorization
+
+
 class LinearSystem:
     """
     A: 1. mxn 的矩阵
@@ -28,9 +31,9 @@ class LinearSystem:
         self.Q = None
         self.R = None
 
-        self.Unitary = None
-        self.R = None
-        self.V = None
+        self.urv_u = None
+        self.urv_r = None
+        self.urv_v = None
 
     # 查看是否有解 doesn't matter
     def isSolvable(self):
@@ -145,11 +148,18 @@ class LinearSystem:
 
         print(f"该方阵行列式 = {determinant}")
 
+    def URV_Factorization(self):
+        self.urv_u, self.urv_r, self.urv_v = URVFactorization(Matrix=self.A)
+        print("U矩阵\n", self.urv_u)
+        print("R矩阵\n", self.urv_r)
+        print("V矩阵\n", self.urv_v)
+        print("URV矩阵\n", self.urv_u @ self.urv_r @ self.urv_v)
+
 
 if __name__ == "__main__":
     # 取消科学记数法显示
     np.set_printoptions(suppress=True)
-    A_test = np.array([[0, -20, -14],
+    """A_test = np.array([[0, -20, -14],
                   [3, 27, -4],
                   [4, 11, -2]])
     x_true = np.array([[x] for x in range(3)])
@@ -167,4 +177,69 @@ if __name__ == "__main__":
     # 求解分解后的线性系统
     mat.solve_by_QR()
     # 求解方阵行列式
-    mat.get_determinant()
+    mat.get_determinant()"""
+
+    msg = input("请选择一个线性系统(1->输入data.txt文件 2->随机生成一个mxn矩阵 0->退出)\n")
+    while msg != "0":
+        if msg == "1":
+            A = []
+            b = []
+            with open("data.txt", "r") as f:
+                line = f.readline().strip("\n")
+                while line:
+                    if line == "A":
+                        m, n = f.readline().strip("\n").split(",")
+                        A = []
+                        for row in range(int(m)):
+                            A.append([int(x) for x in f.readline().strip("\n").split(" ")])
+
+                    elif line == "b":
+                        b = [[int(x)] for x in f.readline().strip("\n").split(" ")]
+
+                    elif line == "x":
+                        true_x = [[int(x)] for x in f.readline().strip("\n").split(" ")]
+
+                    line = f.readline().strip("\n")
+            A = np.array(A)
+            b = np.array(b)
+            mat = LinearSystem(A=A, b=b)
+
+        elif msg == "2":
+            shape = input("请输入矩阵长宽 e.g. 3,3\n")
+            m, n = shape.split(",")
+            m, n = int(m), int(n)
+            mat = LinearSystem(random=(m, n+1))
+
+        else:
+            msg = input("1 输入data.txt文件\n2 随机生成一个mxn矩阵\n0 退出\n")
+            continue
+
+        msg_2 = input("请选择分解方法(1->LU 2->QR 3->URV 4->求行列式 "
+                      "5->使用LU求解线性系统 6->使用QR求解线性系统 0->退出)\n")
+        while msg_2 != "0":
+            if msg_2 == "1":
+                mat.LU_Factorization()
+            elif msg_2 == "2":
+                method = input("请选择QR分解算法(gm->gram-schmidt "
+                               "householder->Householder "
+                               "reduction givens->Givens reduction)\n")
+                mat.QR_Factorization(methods=method)
+            elif msg_2 == "3":
+                mat.URV_Factorization()
+            elif msg_2 == "4":
+                mat.get_determinant()
+            elif msg_2 == "5":
+                mat.solve_by_LU()
+            elif msg_2 == "6":
+                mat.solve_by_QR()
+            else:
+                msg_2 = input("1->LU \n2->QR \n3->URV \n4->求行列式 "
+                              "\n5->使用LU求解线性系统 \n6->使用QR求解线性系统 \n0->退出\n")
+                continue
+
+            msg_2 = input("请选择分解方法(1->LU 2->QR 3->URV 4->求行列式 "
+                          "5->使用LU求解线性系统 6->使用QR求解线性系统 0->退出)\n")
+
+        msg = input("请选择一个线性系统(1->输入data.txt文件 2->随机生成一个mxn矩阵 0->退出)\n")
+
+    print("程序运行结束！")

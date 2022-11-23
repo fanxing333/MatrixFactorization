@@ -16,7 +16,7 @@ def URVFactorization(Matrix):
 if __name__ == "__main__":
     # 取消科学记数法显示
     np.set_printoptions(suppress=True)
-    As = np.array([[1, 2, 3, 4],
+    """As = np.array([[1, 2, 3, 4],
                   [2, 4, 6, 8],
                   [3, 6, 9, 13],
                   [3, 6, 9, 13],
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     A = np.array([[0, -20, -14],
                   [3, 27, -4],
                   [4, 11, -2],
-                  [4, 11, -2]])
+                  [4, 11, -2]])"""
 
     print("Test A mxm, r=m")
     Test_A = np.array([[0, -20, -14],

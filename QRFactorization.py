@@ -45,3 +45,29 @@ def GramSchmidt(Matrix):
         Q[:, [k]] = Q[:, [k]] / R[k, k]
 
     return Q, R
+
+
+if __name__ == "__main__":
+    # 取消科学记数法显示
+    np.set_printoptions(suppress=True)
+
+    print("Test A mxm")
+    TestA = np.array([[0, -20, -14],
+                      [3, 27, -4],
+                      [4, 11, -2]])
+
+    Qa, Ra = GramSchmidt(TestA)
+    print("Q矩阵\n", Qa)
+    print("R矩阵\n", Ra)
+    print("QR矩阵\n", Qa @ Ra)
+
+    print("Test A mxn")
+    print("Test B, mxn and m>n")
+    TestB = np.array([[0, -20, -14],
+                      [3, 27, -4],
+                      [4, 11, -2],
+                      [2, 5, 6]])
+    Qb, Rb = GramSchmidt(TestB)
+    print("Q矩阵4x3\n", Qb)
+    print("R矩阵3x3\n", Rb)
+    print("QR矩阵\n", Qb @ Rb)

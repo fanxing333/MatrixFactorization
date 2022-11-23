@@ -1,11 +1,13 @@
 import numpy as np
-
+import os
 from main import LinearSystem
 
 if __name__ == "__main__":
+    """
     A_list = []
     b_list = []
     true_x_list = []
+    
     with open("data.txt", "r") as f:
         line = f.readline().strip("\n")
         while line:
@@ -31,3 +33,23 @@ if __name__ == "__main__":
         mat.LU_Factorization()
         mat.solve_by_LU()
         print("答案是\n", true_x_list[i])
+    """
+    print("-----------------开始LU分解测试-------------------")
+    lu_test = "python LUFactorization.py"
+    print(os.system(lu_test))
+    print("-----------------结束LU分解测试-------------------")
+
+    print("-----------------开始QR分解测试-------------------")
+    qr_test = "python QRFactorization.py"
+    print(os.system(qr_test))
+    print("-----------------结束QR分解测试-------------------")
+
+    print("-----------------开始正交约减测试-------------------")
+    or_test = "python OrthogonalReduction.py"
+    print(os.system(or_test))
+    print("-----------------结束正交约减测试-------------------")
+
+    print("-----------------开始URV分解测试-------------------")
+    urv_test = "python URVFactorization.py"
+    print(os.system(urv_test))
+    print("-----------------结束URV分解测试-------------------")

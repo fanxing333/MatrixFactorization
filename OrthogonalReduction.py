@@ -108,34 +108,6 @@ def plane_rotation(x, i, j):
 if __name__ == "__main__":
     # 取消科学记数法显示
     np.set_printoptions(suppress=True)
-    A = np.array([[0, -20, -14],
-                  [3, 27, -4],
-                  [4, 11, -2]])
-    """
-    A2 = np.array([[1, 19, -34],
-                   [-2, -5, 20],
-                   [2, 8, 37]])
-    """
-    """
-    random_matrix = np.random.random((10, 10))
-    random_matrix = np.array(random_matrix)
-    print(random_matrix)
-    Q, R = HouseholderReduction(random_matrix)
-    print(Q)
-    print(R)
-    print(Q @ R)
-    Q, R = GivensReduction(random_matrix)
-    print(Q)
-    print(R)
-    print(Q @ R)
-    
-    AA = np.array([[1, 2, 3],
-                   [2, 4, 6],
-                   [3, 6, 9],
-                   [3, 6, 9]])
-    Qg, Rg = GramSchmidt(AA)
-    print(Qg)
-    print(Rg)"""
 
     print("Test A, mxm")
     TestA = np.array([[0, -20, -14],
@@ -145,6 +117,11 @@ if __name__ == "__main__":
     print("Q矩阵\n", Qa)
     print("R矩阵\n", Ra)
     print("QR矩阵\n", Qa @ Ra)
+    Qa_givens, Ra_givens = GivensReduction(TestA)
+    print("Givens Reduction")
+    print("Q矩阵\n", Qa_givens)
+    print("R矩阵\n", Ra_givens)
+    print("QR矩阵\n", Qa_givens @ Ra_givens)
 
     print("Test B, mxn and m>n")
     TestB = np.array([[0, -20, -14],
@@ -155,6 +132,11 @@ if __name__ == "__main__":
     print("Q矩阵4x4\n", Qb)
     print("R矩阵4x3\n", Rb)
     print("QR矩阵\n", Qb @ Rb)
+    Qb_givens, Rb_givens = GivensReduction(TestB)
+    print("Givens Reduction")
+    print("Q矩阵\n", Qb_givens)
+    print("R矩阵\n", Rb_givens)
+    print("QR矩阵\n", Qb_givens @ Rb_givens)
 
     print("Test C, mxn and m<n")
     TestC = np.array([[0, -20, -14, 4],
@@ -164,6 +146,11 @@ if __name__ == "__main__":
     print("Q矩阵3x3\n", Qc)
     print("R矩阵3x4\n", Rc)
     print("QR矩阵\n", Qc @ Rc)
+    Qc_givens, Rc_givens = GivensReduction(TestC)
+    print("Givens Reduction")
+    print("Q矩阵\n", Qc_givens)
+    print("R矩阵\n", Rc_givens)
+    print("QR矩阵\n", Qc_givens @ Rc_givens)
 
     print("Test D, mxm and r=1")
     TestD = np.array([[1, -20, -14],
@@ -173,3 +160,8 @@ if __name__ == "__main__":
     print("Q矩阵3x3\n", Qd)
     print("R矩阵3x3\n", Rd)
     print("QR矩阵\n", Qd @ Rd)
+    Qd_givens, Rd_givens = GivensReduction(TestD)
+    print("Givens Reduction")
+    print("Q矩阵\n", Qd_givens)
+    print("R矩阵\n", Rd_givens)
+    print("QR矩阵\n", Qd_givens @ Rd_givens)
